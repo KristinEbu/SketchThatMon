@@ -8,32 +8,18 @@ export default function Home() {
       <Header />
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
         <ol className="list-inside list-decimal text-center">
-          <li className="font-title">
-            Test Title
-          </li>
-          <li className="text-red-700">
-            Test Primary
-          </li>
-          <li className="text-yellow-400">
-            Test Secondary
-          </li>
-          <li className="text-blue-600">
-            Test Tertiary
+          <li className="font-title">Test Title</li>
+          <li className="text-red-700">Test Primary</li>
+          <li className="text-yellow-400">Test Secondary</li>
+          <li className="text-blue-600">Test Tertiary</li>
+          <li>
+            <Button color="primary">Test Button</Button>
           </li>
           <li>
-            <Button color="primary">
-              Test Button
-            </Button>
+            <Button color="secondary">Test Button</Button>
           </li>
           <li>
-            <Button color="secondary">
-              Test Button
-            </Button>
-          </li>
-          <li>
-            <Button color="tertiary">
-              Test Button
-            </Button>
+            <Button color="tertiary">Test Button</Button>
           </li>
         </ol>
       </main>

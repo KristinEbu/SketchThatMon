@@ -3,12 +3,9 @@ import React from "react";
 type ButtonColor = "primary" | "secondary" | "tertiary";
 
 const styleMap: Record<ButtonColor, string> = {
-  primary:
-    "bg-red-700 hover:bg-red-900 text-white",
-  secondary:
-    "bg-yellow-400 hover:bg-yellow-500 text-zinc-900",
-  tertiary:
-    "bg-blue-600 hover:bg-blue-800 text-white",
+  primary: "bg-red-700 hover:bg-red-900 text-white",
+  secondary: "bg-yellow-400 hover:bg-yellow-500 text-zinc-900",
+  tertiary: "bg-blue-600 hover:bg-blue-800 text-white",
 };
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {

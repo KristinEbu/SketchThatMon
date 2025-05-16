@@ -1,4 +1,5 @@
 # SketchThatMon (WORK IN PROGRESS)
+
 GOAL: A fun drawing game where you sketch random Pokémon from memory. Customize timers, rounds, skips, filters, and AI judging. Draw on the built-in canvas or your own device. Save games to the Poke Gallery (10-game limit, oldest auto-deleted).
 
 [FIGMA PROTOTYPE](https://www.figma.com/proto/VHLeFhAbwOXMT5et8pKkPF/SketchThatMon?node-id=36-295&p=f&t=3zacq7E6wB07fAtw-1&scaling=min-zoom&content-scaling=fixed&page-id=3%3A141&starting-point-node-id=36%3A295)

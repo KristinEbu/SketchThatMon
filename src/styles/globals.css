@@ -3,30 +3,32 @@
 /* fredoka-600 - latin */
 @font-face {
   font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-  font-family: 'Fredoka';
+  font-family: "Fredoka";
   font-style: normal;
   font-weight: 600;
-  src: url('../../public/fonts/fredoka/fredoka-v16-latin-600.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+  src: url("../../public/fonts/fredoka/fredoka-v16-latin-600.woff2")
+    format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
 }
 
 /* quicksand-regular - latin */
 @font-face {
   font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-  font-family: 'Quicksand';
+  font-family: "Quicksand";
   font-style: normal;
   font-weight: 400;
-  src: url('../../public/fonts/quicksand/quicksand-v36-latin-regular.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+  src: url("../../public/fonts/quicksand/quicksand-v36-latin-regular.woff2")
+    format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
 }
 
 :root {
-  --primary: #b91c1c;     /* red-700 */
-  --secondary: #fde047;   /* yellow-400 */
-  --tertiary: #2563eb;    /* blue-600 */
-  --background: #18181b;  /* zinc-900 */
+  --primary: #b91c1c; /* red-700 */
+  --secondary: #fde047; /* yellow-400 */
+  --tertiary: #2563eb; /* blue-600 */
+  --background: #18181b; /* zinc-900 */
   --text: #ffffff;
 
-  --font-title: 'Fredoka', times, serif;
-  --font-body: 'Quicksand', sans-serif;
+  --font-title: "Fredoka", times, serif;
+  --font-body: "Quicksand", sans-serif;
 }
 
 body {
