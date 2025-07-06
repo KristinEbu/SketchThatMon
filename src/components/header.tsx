@@ -38,7 +38,7 @@ export default function Header() {
   const [musicOn, setMusicOn] = useState(true);
 
   return (
-    <header className="w-full flex items-center justify-between px-8 pt-20">
+    <header className="w-full flex items-center justify-between px-8 pt-8">
       {/* Left Side */}
       <div>
         <button aria-label="Home">
