@@ -6,14 +6,16 @@ import {
   Cog6ToothIcon,
 } from "@heroicons/react/24/outline";
 
-const MusicOffIcon = () => (
+const iconStyling = "w-12 h-12 hover:text-gray-400";
+
+const MusicOffIcon = ({ className }: { className?: string }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
     viewBox="0 0 24 24"
     strokeWidth={1.5}
     stroke="currentColor"
-    className={"w-12 h-12"}
+    className={className}
   >
     {/* Original music icon */}
     <path
@@ -42,7 +44,7 @@ export default function Header() {
       {/* Left Side */}
       <div>
         <button aria-label="Home">
-          <HomeIcon className="w-12 h-12" />
+          <HomeIcon className={iconStyling} />
         </button>
       </div>
       {/* Right Side */}
@@ -52,14 +54,14 @@ export default function Header() {
           onClick={() => setMusicOn((musicOn) => !musicOn)}
         >
           {musicOn ? (
-            <MusicalNoteIcon className="w-12 h-12" />
+            <MusicalNoteIcon className={iconStyling} />
           ) : (
-            <MusicOffIcon />
+            <MusicOffIcon className={iconStyling} />
           )}
         </button>
         <div className="w-8" />
         <button aria-label="Settings">
-          <Cog6ToothIcon className="w-12 h-12" />
+          <Cog6ToothIcon className={iconStyling} />
         </button>
       </div>
     </header>
