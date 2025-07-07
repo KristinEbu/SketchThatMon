@@ -10,8 +10,8 @@ const styleMap: Record<ButtonColor, string> = {
 };
 
 const sizeMap: Record<ButtonSize, string> = {
-  small: "py-4 px-4",
-  normal: "py-6 px-12 text-3xl",
+  small: "py-1.5 px-4",
+  normal: "py-4 px-4",
   large: "py-8 px-20 text-4xl",
 };
 

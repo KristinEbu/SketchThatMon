@@ -1,5 +1,5 @@
 import "../styles/globals.css";
-import Button from "../components/button";
+import Button from "../components/ui/button";
 
 export default function Home() {
   return (
@@ -9,11 +9,17 @@ export default function Home() {
       </h1>
       <div className="grid grid-cols-2 gap-8">
         <div className="flex flex-col gap-8">
-          <Button color="primary" size="large">Solo</Button>
-          <Button color="tertiary" size="small" className="mt-2 w-1/2">Poke Gallery</Button>
+          <Button color="primary" size="large">
+            Solo
+          </Button>
+          <Button color="tertiary" size="normal" className="mt-2 w-1/2">
+            Poke Gallery
+          </Button>
         </div>
         <div className="flex flex-col gap-8">
-          <Button color="secondary" size="large">Versus</Button>
+          <Button color="secondary" size="large">
+            Versus
+          </Button>
         </div>
       </div>
     </div>
