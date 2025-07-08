@@ -2,22 +2,25 @@ import React from "react";
 import Dropdown from "./dropdown";
 
 type DropdownGroupProps = {
+  labels: string[];
   optionsList: string[][];
-  values: string[];
-  onChanges: ((value: string) => void)[];
+  values: string[][];
+  onChanges: ((value: string[]) => void)[];
   disabled?: boolean;
 };
 
 export default function DropdownGroup({
+  labels,
   optionsList,
   values,
   onChanges,
   disabled = false,
 }: DropdownGroupProps) {
   return (
-    <div className="flex gap-4">
+    <div className="flex flex-wrap gap-6">
       {optionsList.map((options, i) => (
         <Dropdown
+          label={labels[i]}
           key={i}
           options={options}
           value={values[i]}

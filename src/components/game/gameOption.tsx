@@ -17,11 +17,15 @@ type GameOptionProps = {
   sliderValue?: number;
   onSliderChange?: (value: number) => void;
 
-  dropdownValues?: string[];
+  dropdownLabels?: string[];
+  dropdownValues?: string[][];
   dropdownOptionsList?: string[][];
-  dropdownOnChanges?: ((value: string) => void)[];
+  dropdownOnChanges?: ((value: string[]) => void)[];
 
   disabled?: boolean;
+  min?: number;
+  max?: number;
+  className?: string;
 };
 
 export default function GameOption({
@@ -37,37 +41,22 @@ export default function GameOption({
   sliderValue,
   onSliderChange,
 
+  dropdownLabels = [],
   dropdownValues = [],
   dropdownOptionsList = [],
   dropdownOnChanges = [],
 
   disabled = false,
+  min = 1,
+  max = 100,
+  className,
 }: GameOptionProps) {
   const handleSlider = (e: React.ChangeEvent<HTMLInputElement>) => {
     onSliderChange?.(Number(e.target.value));
   };
 
-  const sanitizeNumberInput = (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ): number => {
-    const val = e.target.value.replace(/[^0-9]/g, "");
-    let num = parseInt(val, 10);
-
-    if (isNaN(num)) {
-      num = 0;
-    }
-
-    if (num > 100) {
-      num = 100;
-    } else if (num < 0) {
-      num = 0;
-    }
-
-    return num;
-  };
-
   return (
-    <div className="flex flex-col gap-2">
+    <div className={`flex flex-col gap-2 ${className}`}>
       <div className="flex gap-4">
         <p className="font-title font-bold text-2xl">{label}</p>
         {onToggle && (
@@ -78,13 +67,26 @@ export default function GameOption({
           />
         )}
       </div>
-      {description && <p className="text-gray-400">{description}</p>}
+      {description && <p className="text-lg text-gray-400">{description}</p>}
       <div className="flex items-center gap-4">
         {inputValue !== undefined && onInputChange && (
           <TextInput
             type="number"
             value={inputValue}
-            onChange={(e) => onInputChange?.(sanitizeNumberInput(e))}
+            onChange={(e) => {
+              const cleaned = e.target.value.replace(/[^0-9]/g, "");
+              const num = parseInt(cleaned, 10);
+              onInputChange?.(isNaN(num) ? 0 : num);
+            }}
+            onBlur={(e) => {
+              const parsed = parseInt(e.target.value, 10);
+              if (isNaN(parsed) || parsed < min) {
+                onInputChange?.(min);
+              }
+              if (parsed > max) {
+                onInputChange?.(max);
+              }
+            }}
             disabled={disabled || !switchValue}
           />
         )}
@@ -92,8 +94,8 @@ export default function GameOption({
           <Slider
             value={sliderValue}
             onChange={handleSlider}
-            min={0}
-            max={100}
+            min={min}
+            max={max}
             step={1}
             disabled={disabled || !switchValue}
           />
@@ -103,6 +105,7 @@ export default function GameOption({
         dropdownOptionsList.length > 0 &&
         dropdownOnChanges.length > 0 && (
           <DropdownGroup
+            labels={dropdownLabels}
             optionsList={dropdownOptionsList}
             values={dropdownValues}
             onChanges={dropdownOnChanges}

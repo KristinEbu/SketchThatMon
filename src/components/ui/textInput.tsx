@@ -12,6 +12,7 @@ interface TextInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   type: TextInputType;
   value: string | number;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur: (e: React.ChangeEvent<HTMLInputElement>) => void;
   className?: string;
   disabled?: boolean;
 }
@@ -20,6 +21,7 @@ export default function TextInput({
   type,
   value,
   onChange,
+  onBlur,
   className,
   disabled,
 }: TextInputProps) {
@@ -27,6 +29,7 @@ export default function TextInput({
     <input
       value={value}
       onChange={onChange}
+      onBlur={onBlur}
       disabled={disabled}
       className={
         styleMap[type] +
