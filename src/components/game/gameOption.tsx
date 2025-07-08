@@ -17,11 +17,13 @@ type GameOptionProps = {
   sliderValue?: number;
   onSliderChange?: (value: number) => void;
 
-  dropdownValues?: string[];
+  dropdownLabels?: string[];
+  dropdownValues?: string[][];
   dropdownOptionsList?: string[][];
-  dropdownOnChanges?: ((value: string) => void)[];
+  dropdownOnChanges?: ((value: string[]) => void)[];
 
   disabled?: boolean;
+  className?: string;
 };
 
 export default function GameOption({
@@ -37,11 +39,13 @@ export default function GameOption({
   sliderValue,
   onSliderChange,
 
+  dropdownLabels = [],
   dropdownValues = [],
   dropdownOptionsList = [],
   dropdownOnChanges = [],
 
   disabled = false,
+  className,
 }: GameOptionProps) {
   const handleSlider = (e: React.ChangeEvent<HTMLInputElement>) => {
     onSliderChange?.(Number(e.target.value));
@@ -67,7 +71,7 @@ export default function GameOption({
   };
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className={`flex flex-col gap-2 ${className}`}>
       <div className="flex gap-4">
         <p className="font-title font-bold text-2xl">{label}</p>
         {onToggle && (
@@ -78,7 +82,7 @@ export default function GameOption({
           />
         )}
       </div>
-      {description && <p className="text-gray-400">{description}</p>}
+      {description && <p className="text-lg text-gray-400">{description}</p>}
       <div className="flex items-center gap-4">
         {inputValue !== undefined && onInputChange && (
           <TextInput
@@ -103,6 +107,7 @@ export default function GameOption({
         dropdownOptionsList.length > 0 &&
         dropdownOnChanges.length > 0 && (
           <DropdownGroup
+            labels={dropdownLabels}
             optionsList={dropdownOptionsList}
             values={dropdownValues}
             onChanges={dropdownOnChanges}

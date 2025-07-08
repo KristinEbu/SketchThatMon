@@ -20,7 +20,7 @@ export default function Switch({
       aria-checked={checked}
       onClick={() => onChange(!checked)}
       disabled={disabled}
-      className={`relative inline-flex items-center border-2 h-7 w-12 rounded-full transition-colors focus:ring-2 focus:ring-blue-500
+      className={`relative inline-flex items-center flex-shrink-0 overflow-hidden border-2 h-7 w-12 rounded-full transition-colors focus:ring-2 focus:ring-blue-500
         ${checked ? "border-yellow-400 bg-yellow-100" : "bg-gray-300"} ${className}
         ${disabled ? "opacity-50 cursor-not-allowed" : ""}`}
     >

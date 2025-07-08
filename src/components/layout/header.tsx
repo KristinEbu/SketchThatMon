@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   HomeIcon,
   MusicalNoteIcon,
@@ -38,12 +39,13 @@ const MusicOffIcon = ({ className }: { className?: string }) => (
 
 export default function Header() {
   const [musicOn, setMusicOn] = useState(true);
+  const router = useRouter();
 
   return (
     <header className="w-full flex items-center justify-between px-8 pt-8">
       {/* Left Side */}
       <div>
-        <button aria-label="Home">
+        <button aria-label="Home" onClick={() => router.push("/")}>
           <HomeIcon className={iconStyling} />
         </button>
       </div>

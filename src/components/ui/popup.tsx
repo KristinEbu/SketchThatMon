@@ -1,12 +1,27 @@
 import React from "react";
+import Button from "@/components/ui/button";
 
 type PopupProps = {
   open: boolean;
   onClose: () => void;
-  children: React.ReactNode;
+  label: string;
+  description?: string;
+  buttonLabelLeft: string;
+  onClickLeft: () => void;
+  buttonLabelRight: string;
+  onClickRight: () => void;
 };
 
-export default function Popup({ open, onClose, children }: PopupProps) {
+export default function Popup({
+  open,
+  onClose,
+  label,
+  description,
+  buttonLabelLeft,
+  onClickLeft,
+  buttonLabelRight,
+  onClickRight,
+}: PopupProps) {
   if (!open) return null;
 
   return (
@@ -18,7 +33,19 @@ export default function Popup({ open, onClose, children }: PopupProps) {
         >
           &times;
         </button>
-        {children}
+        <div className="p-4 py-8 gap-4 flex flex-col">
+          <h2 className="text-lg font-bold text-center">{label}</h2>
+          <p>{description}</p>
+          <hr className="p-1" />
+          <div className="flex justify-between">
+            <Button color="secondary" size="small" onClick={onClickLeft}>
+              {buttonLabelLeft}
+            </Button>
+            <Button color="primary" size="small" onClick={onClickRight}>
+              {buttonLabelRight}
+            </Button>
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -1,7 +1,11 @@
-import "../styles/globals.css";
-import Button from "../components/ui/button";
+"use client";
+import "@/styles/globals.css";
+import Button from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
+
   return (
     <div className="flex flex-col items-center gap-8 pt-24">
       <h1 className="font-title text-8xl font-bold text-center">
@@ -9,7 +13,11 @@ export default function Home() {
       </h1>
       <div className="grid grid-cols-2 gap-8">
         <div className="flex flex-col gap-8">
-          <Button color="primary" size="large">
+          <Button
+            color="primary"
+            size="large"
+            onClick={() => router.push("/solo/game-settings")}
+          >
             Solo
           </Button>
           <Button color="tertiary" size="normal" className="mt-2 w-1/2">
