@@ -23,6 +23,8 @@ type GameOptionProps = {
   dropdownOnChanges?: ((value: string[]) => void)[];
 
   disabled?: boolean;
+  min?: number;
+  max?: number;
   className?: string;
 };
 
@@ -45,29 +47,12 @@ export default function GameOption({
   dropdownOnChanges = [],
 
   disabled = false,
+  min = 1,
+  max = 100,
   className,
 }: GameOptionProps) {
   const handleSlider = (e: React.ChangeEvent<HTMLInputElement>) => {
     onSliderChange?.(Number(e.target.value));
-  };
-
-  const sanitizeNumberInput = (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ): number => {
-    const val = e.target.value.replace(/[^0-9]/g, "");
-    let num = parseInt(val, 10);
-
-    if (isNaN(num)) {
-      num = 0;
-    }
-
-    if (num > 100) {
-      num = 100;
-    } else if (num < 0) {
-      num = 0;
-    }
-
-    return num;
   };
 
   return (
@@ -88,7 +73,20 @@ export default function GameOption({
           <TextInput
             type="number"
             value={inputValue}
-            onChange={(e) => onInputChange?.(sanitizeNumberInput(e))}
+            onChange={(e) => {
+              const cleaned = e.target.value.replace(/[^0-9]/g, "");
+              const num = parseInt(cleaned, 10);
+              onInputChange?.(isNaN(num) ? 0 : num);
+            }}
+            onBlur={(e) => {
+              const parsed = parseInt(e.target.value, 10);
+              if (isNaN(parsed) || parsed < min) {
+                onInputChange?.(min);
+              }
+              if (parsed > max) {
+                onInputChange?.(max);
+              }
+            }}
             disabled={disabled || !switchValue}
           />
         )}
@@ -96,8 +94,8 @@ export default function GameOption({
           <Slider
             value={sliderValue}
             onChange={handleSlider}
-            min={0}
-            max={100}
+            min={min}
+            max={max}
             step={1}
             disabled={disabled || !switchValue}
           />

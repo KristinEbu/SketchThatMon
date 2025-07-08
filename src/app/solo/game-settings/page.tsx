@@ -11,7 +11,8 @@ import { useGameSettings } from "@/hooks/useGameSettings";
 
 export default function VersusSettings() {
   const router = useRouter();
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isResetPopupOpen, setIsResetPopupOpen] = useState(false);
+  const [isErrorPopupOpen, setIsErrorPopupOpen] = useState(false);
 
   const {
     isCanvasOn,
@@ -43,16 +44,42 @@ export default function VersusSettings() {
     reset,
   } = useGameSettings();
 
+  const dropdownValues = [
+    regionValue,
+    typeValue,
+    legendaryValue,
+    stageValue,
+    evolveValue,
+    formValue,
+  ];
+
+  const isEmpty = (dropdownValues: string[][]) => {
+    for (let i = 0; i < dropdownValues.length; i++) {
+      if (dropdownValues[i].length == 0) {
+        return true;
+      }
+    }
+    return false;
+  };
+
   return (
-    <div className="flex flex-col p-3 px-10 gap-4">
+    <div className="flex flex-col p-3 px-10 gap-2">
       <Popup
-        open={isPopupOpen}
-        onClose={() => setIsPopupOpen(false)}
+        open={isResetPopupOpen}
+        onClose={() => setIsResetPopupOpen(false)}
         label="Are you sure you want to reset to default settings?"
         buttonLabelLeft="Cancel"
-        onClickLeft={() => setIsPopupOpen(false)}
+        onClickLeft={() => setIsResetPopupOpen(false)}
         buttonLabelRight="OK"
-        onClickRight={() => (reset(), setIsPopupOpen(false))}
+        onClickRight={() => (reset(), setIsResetPopupOpen(false))}
+      />
+      <Popup
+        open={isErrorPopupOpen}
+        onClose={() => setIsErrorPopupOpen(false)}
+        label="Game Settings Error"
+        description="Unable to start the game due to unselected Pokemon Filter"
+        buttonLabelRight="OK"
+        onClickRight={() => setIsErrorPopupOpen(false)}
       />
       <h1 className="font-title text-4xl">How To Play</h1>
       <p className="text-xl">{HOW_TO_PLAY}</p>
@@ -84,6 +111,7 @@ export default function VersusSettings() {
             onInputChange={setNumSkips}
             sliderValue={numSkips}
             onSliderChange={setNumSkips}
+            min={0}
           />
         </div>
         <div className="flex flex-col max-w-120 gap-4">
@@ -106,14 +134,7 @@ export default function VersusSettings() {
               FILTERS.evolve.options,
               FILTERS.form.options,
             ]}
-            dropdownValues={[
-              regionValue,
-              typeValue,
-              legendaryValue,
-              stageValue,
-              evolveValue,
-              formValue,
-            ]}
+            dropdownValues={dropdownValues}
             dropdownOnChanges={[
               setRegionValue,
               setTypevalue,
@@ -133,6 +154,7 @@ export default function VersusSettings() {
             sliderValue={timerDuration}
             onSliderChange={setTimerDuration}
             className="max-w-112"
+            max={30}
           />
         </div>
       </div>
@@ -140,14 +162,18 @@ export default function VersusSettings() {
         <Button
           color="secondary"
           size="normal"
-          onClick={() => setIsPopupOpen(true)}
+          onClick={() => setIsResetPopupOpen(true)}
         >
           Reset to Default
         </Button>
         <Button
           color="primary"
           size="normal"
-          onClick={() => router.push("/solo/game/1/")}
+          onClick={() =>
+            isEmpty(dropdownValues)
+              ? setIsErrorPopupOpen(true)
+              : router.push("/solo/game/1/")
+          }
         >
           Start Game
         </Button>

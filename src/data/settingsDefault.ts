@@ -7,7 +7,7 @@ export const DEFAULT_SETTINGS = {
   isSkipsOn: true,
   numSkips: 5,
   isTimerOn: true,
-  timerDuration: 1,
+  timerDuration: 3,
   regionValue: FILTERS.region.options,
   typeValue: FILTERS.type.options,
   legendaryValue: FILTERS.legendary.options,

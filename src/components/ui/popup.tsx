@@ -6,8 +6,8 @@ type PopupProps = {
   onClose: () => void;
   label: string;
   description?: string;
-  buttonLabelLeft: string;
-  onClickLeft: () => void;
+  buttonLabelLeft?: string;
+  onClickLeft?: () => void;
   buttonLabelRight: string;
   onClickRight: () => void;
 };
@@ -35,12 +35,16 @@ export default function Popup({
         </button>
         <div className="p-4 py-8 gap-4 flex flex-col">
           <h2 className="text-lg font-bold text-center">{label}</h2>
-          <p>{description}</p>
+          <p className="text-center">{description}</p>
           <hr className="p-1" />
-          <div className="flex justify-between">
-            <Button color="secondary" size="small" onClick={onClickLeft}>
-              {buttonLabelLeft}
-            </Button>
+          <div
+            className={`flex ${buttonLabelLeft ? "justify-between" : "justify-center"}`}
+          >
+            {buttonLabelLeft && onClickLeft && (
+              <Button color="secondary" size="small" onClick={onClickLeft}>
+                {buttonLabelLeft}
+              </Button>
+            )}
             <Button color="primary" size="small" onClick={onClickRight}>
               {buttonLabelRight}
             </Button>

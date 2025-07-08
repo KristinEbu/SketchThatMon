@@ -17,7 +17,7 @@ export default function DropdownGroup({
   disabled = false,
 }: DropdownGroupProps) {
   return (
-    <div className="flex flex-wrap gap-4">
+    <div className="flex flex-wrap gap-6">
       {optionsList.map((options, i) => (
         <Dropdown
           label={labels[i]}

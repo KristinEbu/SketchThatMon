@@ -58,17 +58,28 @@ export default function Dropdown({
       className={`relative inline-block text-left w-55 ${className}`}
       ref={containerRef}
     >
+      {/* Error message */}
+      {value.length === 0 && (
+        <p className="absolute -top-5 left-0 text-red-500 text-xs">
+          ERROR: Nothing Selected
+        </p>
+      )}
+
+      {/* Dropdown button */}
       <button
         type="button"
-        className={`inline-flex justify-between items-center w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-black hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-          disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"
-        }`}
+        className={`inline-flex justify-between items-center w-full rounded-md bg-white px-3 py-2 text-sm font-medium text-black hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500
+          ${disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"}
+          ${value.length === 0 ? "ring-2 ring-red-500" : ""}
+        `}
         onClick={() => !disabled && setIsOpen(!isOpen)}
         aria-haspopup="true"
         aria-expanded={isOpen}
         disabled={disabled}
       >
-        <span className="truncate">{label}</span>
+        <span className="truncate">
+          {allSelected || value.length === 0 ? label : value.join(", ")}
+        </span>
         <ChevronDownIcon
           className="ml-2 h-5 w-5 text-gray-400"
           aria-hidden="true"

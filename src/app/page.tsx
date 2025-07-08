@@ -25,7 +25,7 @@ export default function Home() {
           </Button>
         </div>
         <div className="flex flex-col gap-8">
-          <Button color="secondary" size="large">
+          <Button color="secondary" size="large" disabled={true}>
             Versus
           </Button>
         </div>

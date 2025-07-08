@@ -18,12 +18,14 @@ const sizeMap: Record<ButtonSize, string> = {
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   color?: ButtonColor;
   size?: ButtonSize;
+  disabled?: boolean;
   className?: string;
 }
 
 export default function Button({
   color = "primary",
   size = "normal",
+  disabled = false,
   className = "",
   children,
   ...props
@@ -33,7 +35,8 @@ export default function Button({
 
   return (
     <button
-      className={`${style} ${sizeStyle} font-bold rounded-xl ${className}`}
+      disabled={disabled}
+      className={`${style} ${sizeStyle} font-bold rounded-xl ${disabled ? "opacity-50 cursor-not-allowed" : ""} ${className}`}
       {...props}
     >
       {children}
