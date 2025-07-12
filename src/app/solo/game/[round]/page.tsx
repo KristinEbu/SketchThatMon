@@ -97,8 +97,7 @@ export default function Game() {
       <Popup
         open={isPopupOpen}
         onClose={() => setIsPopupOpen(false)}
-        label="Are you sure you want to exit the game?"
-        description="Progress will be lost (including all drawings)"
+        label="Are you sure you want to end the game?"
         buttonLabelLeft="Cancel"
         onClickLeft={() => setIsPopupOpen(false)}
         buttonLabelRight="OK"
