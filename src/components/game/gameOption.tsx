@@ -48,7 +48,7 @@ export default function GameOption({
 
   disabled = false,
   min = 1,
-  max = 100,
+  max = 20,
   className,
 }: GameOptionProps) {
   const handleSlider = (e: React.ChangeEvent<HTMLInputElement>) => {

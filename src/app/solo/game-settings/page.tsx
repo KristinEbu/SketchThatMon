@@ -1,15 +1,15 @@
 "use client";
 import "@/styles/globals.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Button from "@/components/ui/button";
 import GameOption from "@/components/game/gameOption";
 import Popup from "@/components/ui/popup";
 import { FILTERS } from "@/data/filterOptions";
 import { HOW_TO_PLAY } from "@/data/instructions";
-import { useGameSettings } from "@/hooks/useGameSettings";
+import { useGameContext } from "@/context/gameContext";
 
-export default function VersusSettings() {
+export default function VersusContext() {
   const router = useRouter();
   const [isResetPopupOpen, setIsResetPopupOpen] = useState(false);
   const [isErrorPopupOpen, setIsErrorPopupOpen] = useState(false);
@@ -42,7 +42,8 @@ export default function VersusSettings() {
     formValue,
     setFormValue,
     reset,
-  } = useGameSettings();
+    setSkipsLeft,
+  } = useGameContext();
 
   const dropdownValues = [
     regionValue,
@@ -52,6 +53,10 @@ export default function VersusSettings() {
     evolveValue,
     formValue,
   ];
+
+  useEffect(() => {
+    setSkipsLeft(numSkips);
+  }, [numSkips, setSkipsLeft]);
 
   const isEmpty = (dropdownValues: string[][]) => {
     for (let i = 0; i < dropdownValues.length; i++) {
@@ -63,7 +68,7 @@ export default function VersusSettings() {
   };
 
   return (
-    <div className="flex flex-col p-3 px-10 gap-2">
+    <div className="flex flex-col p-3 px-10 gap-4">
       <Popup
         open={isResetPopupOpen}
         onClose={() => setIsResetPopupOpen(false)}
@@ -112,6 +117,7 @@ export default function VersusSettings() {
             sliderValue={numSkips}
             onSliderChange={setNumSkips}
             min={0}
+            max={50}
           />
         </div>
         <div className="flex flex-col max-w-120 gap-4">
@@ -143,6 +149,7 @@ export default function VersusSettings() {
               setEvolveValue,
               setFormValue,
             ]}
+            disabled={true}
           />
           <GameOption
             label="Round Duration (minutes)"
@@ -154,21 +161,16 @@ export default function VersusSettings() {
             sliderValue={timerDuration}
             onSliderChange={setTimerDuration}
             className="max-w-112"
-            max={30}
+            max={10}
           />
         </div>
       </div>
-      <div className="flex justify-between">
-        <Button
-          color="secondary"
-          size="normal"
-          onClick={() => setIsResetPopupOpen(true)}
-        >
+      <footer className="flex justify-between">
+        <Button color="secondary" onClick={() => setIsResetPopupOpen(true)}>
           Reset to Default
         </Button>
         <Button
           color="primary"
-          size="normal"
           onClick={() =>
             isEmpty(dropdownValues)
               ? setIsErrorPopupOpen(true)
@@ -177,7 +179,7 @@ export default function VersusSettings() {
         >
           Start Game
         </Button>
-      </div>
+      </footer>
     </div>
   );
 }

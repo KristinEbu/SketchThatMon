@@ -48,11 +48,15 @@ const EraserIcon = ({ className }: { className?: string }) => (
 
 type CanvasOptionsProps = {
   color?: string;
+  className?: string;
 };
 
-export default function CanvasOptions({ color }: CanvasOptionsProps) {
+export default function CanvasOptions({
+  color,
+  className,
+}: CanvasOptionsProps) {
   return (
-    <div className="flex flex-col items-center gap-3">
+    <div className={`flex flex-col items-center gap-3 ${className}`}>
       <button aria-label="Color preview" type="button">
         <ColorIcon color={color} />
       </button>

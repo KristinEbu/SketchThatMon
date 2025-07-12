@@ -1,6 +1,8 @@
 "use client";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
+import Popup from "@/components/ui/popup";
 import {
   HomeIcon,
   MusicalNoteIcon,
@@ -39,13 +41,31 @@ const MusicOffIcon = ({ className }: { className?: string }) => (
 
 export default function Header() {
   const [musicOn, setMusicOn] = useState(true);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
   const router = useRouter();
+  const pathname = usePathname();
+  const gamePath = pathname.startsWith("/solo/game/");
 
   return (
     <header className="w-full flex items-center justify-between px-8 pt-8">
+      <Popup
+        open={isPopupOpen}
+        onClose={() => setIsPopupOpen(false)}
+        label="Are you sure you want to exit the game?"
+        description="Progress will be lost (including all drawings)"
+        buttonLabelLeft="Cancel"
+        onClickLeft={() => setIsPopupOpen(false)}
+        buttonLabelRight="OK"
+        onClickRight={() => (router.push("/"), setIsPopupOpen(false))}
+      />
       {/* Left Side */}
       <div>
-        <button aria-label="Home" onClick={() => router.push("/")}>
+        <button
+          aria-label="Home"
+          onClick={
+            gamePath ? () => setIsPopupOpen(true) : () => router.push("/")
+          }
+        >
           <HomeIcon className={iconStyling} />
         </button>
       </div>

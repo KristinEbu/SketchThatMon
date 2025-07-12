@@ -20,7 +20,7 @@ export default function Home() {
           >
             Solo
           </Button>
-          <Button color="tertiary" size="normal" className="mt-2 w-1/2">
+          <Button color="tertiary" disabled={true} className="mt-2 w-1/2">
             Poke Gallery
           </Button>
         </div>
