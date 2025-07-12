@@ -9,7 +9,7 @@ import { FILTERS } from "@/data/filterOptions";
 import { HOW_TO_PLAY } from "@/data/instructions";
 import { useGameContext } from "@/context/gameContext";
 
-export default function VersusContext() {
+export default function VersusSettings() {
   const router = useRouter();
   const [isResetPopupOpen, setIsResetPopupOpen] = useState(false);
   const [isErrorPopupOpen, setIsErrorPopupOpen] = useState(false);
