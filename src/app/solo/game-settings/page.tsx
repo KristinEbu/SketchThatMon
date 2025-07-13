@@ -8,6 +8,7 @@ import Popup from "@/components/ui/popup";
 import { FILTERS } from "@/data/filterOptions";
 import { HOW_TO_PLAY } from "@/data/instructions";
 import { useGameContext } from "@/context/gameContext";
+import { overwriteStoredPokemon } from "@/utils/pokemon";
 
 export default function VersusSettings() {
   const router = useRouter();
@@ -171,11 +172,14 @@ export default function VersusSettings() {
         </Button>
         <Button
           color="primary"
-          onClick={() =>
-            isEmpty(dropdownValues)
-              ? setIsErrorPopupOpen(true)
-              : router.push("/solo/game/1/")
-          }
+          onClick={() => {
+            if (isEmpty(dropdownValues)) {
+              setIsErrorPopupOpen(true);
+            } else {
+              overwriteStoredPokemon();
+              router.push("/solo/game/1/");
+            }
+          }}
         >
           Start Game
         </Button>
