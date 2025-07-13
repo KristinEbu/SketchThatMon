@@ -6,6 +6,7 @@ import Button from "@/components/ui/button";
 import Popup from "@/components/ui/popup";
 import CanvasOptions from "@/components/game/canvasOptions";
 import { useGameContext } from "@/context/gameContext";
+import { loadOrFetchPokemon, fetchRandomPokemon } from "@/utils/pokemon";
 
 export default function Game() {
   const router = useRouter();
@@ -18,6 +19,8 @@ export default function Game() {
 
   const {
     isCanvasOn,
+    isRoundsOn,
+    numRounds,
     isSkipsOn,
     isTimerOn,
     timerDuration,
@@ -33,23 +36,14 @@ export default function Game() {
   );
 
   useEffect(() => {
-    const saved = localStorage.getItem("currentPokemon");
-    if (saved) setPokemon(JSON.parse(saved));
-    else fetchAndSetRandomPokemon();
-
-    return () => {
-      localStorage.removeItem("currentPokemon");
-      localStorage.removeItem("timerEnd");
-    };
+    loadOrFetchPokemon().then(setPokemon);
+    return () => localStorage.removeItem("timerEnd");
   }, []);
 
-  async function fetchAndSetRandomPokemon() {
-    const res = await fetch("https://pokeapi.co/api/v2/pokemon?limit=1000");
-    const data = await res.json();
-    const random =
-      data.results[Math.floor(Math.random() * data.results.length)];
-    setPokemon(random);
-    localStorage.setItem("currentPokemon", JSON.stringify(random));
+  async function nextRandomPokemon() {
+    const p = await fetchRandomPokemon();
+    setPokemon(p);
+    localStorage.setItem("currentPokemon", JSON.stringify(p));
   }
 
   const [timeLeft, setTimeLeft] = useState(0);
@@ -104,8 +98,6 @@ export default function Game() {
         onClickRight={() => {
           reset();
           setCurrRound(0);
-          localStorage.removeItem("currentPokemon");
-          localStorage.removeItem("timerEnd");
           router.push("/solo/game-results");
         }}
       />
@@ -129,9 +121,9 @@ export default function Game() {
           <Button
             color="secondary"
             size="small"
-            onClick={() => {
-              setSkipsLeft((prev: number) => prev - 1);
-              fetchAndSetRandomPokemon();
+            onClick={async () => {
+              setSkipsLeft((prev) => prev - 1);
+              await nextRandomPokemon();
             }}
             disabled={skipsLeft === 0}
           >
@@ -144,14 +136,17 @@ export default function Game() {
           <Button
             color="secondary"
             size="small"
-            onClick={() => router.push(`/solo/game/${currRound}/results`)}
+            onClick={() => router.push(`/solo/game/${currRound}/result`)}
           >
             Reveal (End Round)
           </Button>
         </div>
       </div>
       <footer className="flex justify-between items-center p-4">
-        <div className="font-title text-3xl">Round: {currRound}</div>
+        <div className="font-title text-3xl">
+          Round: {currRound}{" "}
+          {isRoundsOn && currRound == numRounds && "(FINAL ROUND)"}
+        </div>
         <Button color="primary" onClick={() => setIsPopupOpen(true)}>
           End Game
         </Button>

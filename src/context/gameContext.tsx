@@ -39,7 +39,7 @@ type GameContextType = {
   setFormValue: (val: string[]) => void;
   reset: () => void;
   currRound: number;
-  setCurrRound: (val: number) => void;
+  setCurrRound: Dispatch<SetStateAction<number>>;
   skipsLeft: number;
   setSkipsLeft: Dispatch<SetStateAction<number>>;
 };
