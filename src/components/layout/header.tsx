@@ -56,7 +56,15 @@ export default function Header() {
         buttonLabelLeft="Cancel"
         onClickLeft={() => setIsPopupOpen(false)}
         buttonLabelRight="OK"
-        onClickRight={() => (router.push("/"), setIsPopupOpen(false))}
+        onClickRight={() => {
+          localStorage.removeItem("currRound");
+          localStorage.removeItem("currPokemon");
+          localStorage.removeItem("skipsLeft");
+          localStorage.removeItem("timerEnd");
+          localStorage.removeItem("pokemonList");
+          router.push("/");
+          setIsPopupOpen(false);
+        }}
       />
       {/* Left Side */}
       <div>
