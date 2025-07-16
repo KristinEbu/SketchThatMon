@@ -1,0 +1,55 @@
+export const FILTERS = {
+  region: {
+    label: "All Regions",
+    options: [
+      "Kanto",
+      "Johto",
+      "Hoenn",
+      "Sinnoh",
+      "Unova",
+      "Kalos",
+      "Alola",
+      "Galar",
+      "Paldea",
+    ],
+  },
+  type: {
+    label: "All Types",
+    options: [
+      "Bug",
+      "Dark",
+      "Dragon",
+      "Electric",
+      "Fairy",
+      "Fighting",
+      "Fire",
+      "Flying",
+      "Ghost",
+      "Grass",
+      "Ground",
+      "Ice",
+      "Normal",
+      "Poison",
+      "Psychic",
+      "Rock",
+      "Steel",
+      "Water",
+    ],
+  },
+  legendary: {
+    label: "All Legendaries",
+    options: ["Legendaries", "Mythicals"],
+  },
+  stage: {
+    label: "All Stages",
+    options: ["Unevolved", "Evolved Once", "Evolved Twice"],
+  },
+  evolve: {
+    label: "Fully Evolved or Not",
+    options: ["Not Fully Evolved", "Fully Evolved"],
+  },
+  form: {
+    label: "All Forms",
+    options: ["Alternative Forms", "Mega Evolutions", "Gigantamax Forms"],
+  },
+};
