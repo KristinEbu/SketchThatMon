@@ -52,6 +52,7 @@ export default function Game() {
       setTimeLeft(remaining);
       if (remaining === 0 && timerRef.current) {
         clearInterval(timerRef.current);
+        localStorage.removeItem("timerEnd");
         router.push(`/solo/game/${currRound}/result`);
       }
     }
@@ -60,6 +61,7 @@ export default function Game() {
     timerRef.current = setInterval(tick, 1000);
 
     return () => {
+      localStorage.removeItem("timerEnd");
       if (timerRef.current) {
         clearInterval(timerRef.current);
       }
@@ -73,7 +75,7 @@ export default function Game() {
     )}`;
 
   return (
-    <div className="flex flex-col flex-grow justify-between h-full w-full px-10">
+    <div className="flex flex-col flex-grow justify-between h-full w-full">
       <Popup
         open={isPopupOpen}
         onClose={() => setIsPopupOpen(false)}
@@ -131,7 +133,7 @@ export default function Game() {
           </Button>
         </div>
       </div>
-      <footer className="flex justify-between items-center p-4">
+      <footer className="flex justify-between items-center p-6">
         <div className="font-title text-3xl">
           Round: {hasMounted ? currRound : "LOADING..."}
           {isRoundsOn && currRound == numRounds && " (FINAL ROUND)"}

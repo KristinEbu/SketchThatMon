@@ -18,8 +18,9 @@ export default function GameRoundResult() {
     usePokemonContext();
 
   const [displayPokemon] = useState(currPokemon);
+  const [displayRound] = useState(currRound);
 
-  const isFinalRound = isRoundsOn && currRound === numRounds;
+  const isFinalRound = isRoundsOn && displayRound === numRounds;
 
   const getSpriteUrl = (apiUrl: string) => {
     const match = apiUrl.match(/\/pokemon\/(\d+)\//);
@@ -90,9 +91,9 @@ export default function GameRoundResult() {
         </div>
       </div>
 
-      <footer className="flex justify-between items-center p-4">
+      <footer className="flex justify-between items-center p-6">
         <div className="font-title text-3xl">
-          Round: {currRound}
+          Round: {displayRound}
           {isFinalRound && " (FINAL ROUND)"}
         </div>
         <Button

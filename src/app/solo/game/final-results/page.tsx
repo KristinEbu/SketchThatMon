@@ -15,7 +15,7 @@ export default function FinalResults() {
   const [displayList] = useState(pokemonList);
 
   return (
-    <div className="flex flex-col flex-grow justify-between h-full w-full p-4">
+    <div className="flex flex-col flex-grow justify-between h-full w-full p-6">
       <div />
       <div className="flex flex-col px-20 gap-8">
         <h1 className="font-title text-8xl text-center">
