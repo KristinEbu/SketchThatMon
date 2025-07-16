@@ -1,7 +1,7 @@
 # 🎨 SketchThatMon (WIP)
 
-![Vercel](https://img.shields.io/vercel/deployment/prj_P3dJQEwhcEq6gio0wxRqAdoyuYAv?style=flat-square)  
-![License](https://img.shields.io/github/license/KristinEbu/sketchthatmon?style=flat-square)  
+[![Vercel](https://img.shields.io/badge/Vercel-%23000000.svg?logo=vercel&logoColor=white)](#)
+![License](https://img.shields.io/github/license/KristinEbu/sketchthatmon?style=flat-square)
 ![GitHub issues](https://img.shields.io/github/issues/KristinEbu/sketchthatmon?style=flat-square)
 
 A fun drawing game where you sketch random Pokémon from memory!
