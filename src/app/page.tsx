@@ -16,7 +16,7 @@ export default function Home() {
           <Button
             color="primary"
             size="large"
-            onClick={() => router.push("/solo/game-settings")}
+            onClick={() => router.push("/solo/game/settings")}
           >
             Solo
           </Button>

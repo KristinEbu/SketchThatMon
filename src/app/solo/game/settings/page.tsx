@@ -8,7 +8,7 @@ import Popup from "@/components/ui/popup";
 import { FILTERS } from "@/data/filterOptions";
 import { HOW_TO_PLAY } from "@/data/instructions";
 import { useGameContext } from "@/context/gameContext";
-import { overwriteStoredPokemon } from "@/utils/pokemon";
+import { usePokemonContext } from "@/context/pokemonContext";
 
 export default function VersusSettings() {
   const router = useRouter();
@@ -45,6 +45,8 @@ export default function VersusSettings() {
     reset,
     setSkipsLeft,
   } = useGameContext();
+
+  const { fetchNewPokemon } = usePokemonContext();
 
   const dropdownValues = [
     regionValue,
@@ -176,7 +178,7 @@ export default function VersusSettings() {
             if (isEmpty(dropdownValues)) {
               setIsErrorPopupOpen(true);
             } else {
-              overwriteStoredPokemon();
+              fetchNewPokemon();
               router.push("/solo/game/1/");
             }
           }}

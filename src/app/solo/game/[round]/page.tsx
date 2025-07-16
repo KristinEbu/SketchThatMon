@@ -6,7 +6,7 @@ import Button from "@/components/ui/button";
 import Popup from "@/components/ui/popup";
 import CanvasOptions from "@/components/game/canvasOptions";
 import { useGameContext } from "@/context/gameContext";
-import { loadOrFetchPokemon, fetchRandomPokemon } from "@/utils/pokemon";
+import { usePokemonContext } from "@/context/pokemonContext";
 
 export default function Game() {
   const router = useRouter();
@@ -24,27 +24,12 @@ export default function Game() {
     isSkipsOn,
     isTimerOn,
     timerDuration,
-    reset,
     currRound,
-    setCurrRound,
     skipsLeft,
     setSkipsLeft,
   } = useGameContext();
 
-  const [pokemon, setPokemon] = useState<{ name: string; url: string } | null>(
-    null,
-  );
-
-  useEffect(() => {
-    loadOrFetchPokemon().then(setPokemon);
-    return () => localStorage.removeItem("timerEnd");
-  }, []);
-
-  async function nextRandomPokemon() {
-    const p = await fetchRandomPokemon();
-    setPokemon(p);
-    localStorage.setItem("currentPokemon", JSON.stringify(p));
-  }
+  const { currPokemon, fetchNewPokemon } = usePokemonContext();
 
   const [timeLeft, setTimeLeft] = useState(0);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
@@ -55,6 +40,7 @@ export default function Game() {
     }
 
     const storedEnd = localStorage.getItem("timerEnd");
+    console.log(storedEnd);
     const endTime = storedEnd
       ? Number(storedEnd)
       : Date.now() + timerDuration * 60 * 1000;
@@ -80,7 +66,7 @@ export default function Game() {
     };
   }, [isTimerOn, timerDuration, currRound, router]);
 
-  const fmt = (s: number) =>
+  const formatTime = (s: number) =>
     `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(
       2,
       "0",
@@ -96,18 +82,16 @@ export default function Game() {
         onClickLeft={() => setIsPopupOpen(false)}
         buttonLabelRight="OK"
         onClickRight={() => {
-          reset();
-          setCurrRound(0);
-          router.push("/solo/game-results");
+          router.push("/solo/game/final-results");
         }}
       />
       {!isCanvasOn && <div />}
       <div className="flex flex-col items-center gap-4">
         <div className="flex gap-6 items-center">
           <h1 className="font-title text-6xl">
-            {pokemon ? pokemon.name.toUpperCase() : "LOADING..."}
+            {currPokemon ? currPokemon.name.toUpperCase() : "LOADING..."}
           </h1>
-          {isTimerOn && <p className="text-xl">{fmt(timeLeft)}</p>}
+          {isTimerOn && <p className="text-xl">{formatTime(timeLeft)}</p>}
         </div>
 
         {isCanvasOn && (
@@ -122,8 +106,10 @@ export default function Game() {
             color="secondary"
             size="small"
             onClick={async () => {
-              setSkipsLeft((prev) => prev - 1);
-              await nextRandomPokemon();
+              if (isSkipsOn) {
+                setSkipsLeft((prev) => prev - 1);
+              }
+              await fetchNewPokemon();
             }}
             disabled={skipsLeft === 0}
           >
@@ -136,7 +122,10 @@ export default function Game() {
           <Button
             color="secondary"
             size="small"
-            onClick={() => router.push(`/solo/game/${currRound}/result`)}
+            onClick={() => (
+              localStorage.removeItem("timerEnd"),
+              router.push(`/solo/game/${currRound}/result`)
+            )}
           >
             Reveal (End Round)
           </Button>
@@ -144,8 +133,8 @@ export default function Game() {
       </div>
       <footer className="flex justify-between items-center p-4">
         <div className="font-title text-3xl">
-          Round: {currRound}{" "}
-          {isRoundsOn && currRound == numRounds && "(FINAL ROUND)"}
+          Round: {hasMounted ? currRound : "LOADING..."}
+          {isRoundsOn && currRound == numRounds && " (FINAL ROUND)"}
         </div>
         <Button color="primary" onClick={() => setIsPopupOpen(true)}>
           End Game

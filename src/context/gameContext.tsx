@@ -42,6 +42,7 @@ type GameContextType = {
   setCurrRound: Dispatch<SetStateAction<number>>;
   skipsLeft: number;
   setSkipsLeft: Dispatch<SetStateAction<number>>;
+  storageReset: () => void;
 };
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
@@ -66,7 +67,11 @@ export function GameProvider({ children }: { children: ReactNode }) {
   const [evolveValue, setEvolveValue] = useState(DEFAULT_SETTINGS.evolveValue);
   const [formValue, setFormValue] = useState(DEFAULT_SETTINGS.formValue);
 
-  const [currRound, setCurrRound] = useState(1);
+  const [currRound, setCurrRound] = useState<number>(() => {
+    if (typeof window === "undefined") return 1;
+    const saved = localStorage.getItem("currRound");
+    return saved ? JSON.parse(saved) : 1;
+  });
 
   const [skipsLeft, setSkipsLeft] = useState<number>(() => {
     if (typeof window === "undefined") return DEFAULT_SETTINGS.numSkips;
@@ -104,9 +109,23 @@ export function GameProvider({ children }: { children: ReactNode }) {
     setFormValue,
   ]);
 
+  const storageReset = useCallback(() => {
+    localStorage.removeItem("currRound");
+    localStorage.removeItem("currPokemon");
+    localStorage.removeItem("skipsLeft");
+    localStorage.removeItem("timerEnd");
+    localStorage.removeItem("pokemonList");
+    setCurrRound(1);
+    setSkipsLeft(numSkips);
+  }, [numSkips]);
+
   useEffect(() => {
     localStorage.setItem("skipsLeft", JSON.stringify(skipsLeft));
   }, [skipsLeft]);
+
+  useEffect(() => {
+    localStorage.setItem("currRound", JSON.stringify(currRound));
+  }, [currRound]);
 
   return (
     <GameContext.Provider
@@ -142,6 +161,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
         setCurrRound,
         skipsLeft,
         setSkipsLeft,
+        storageReset,
       }}
     >
       {children}
