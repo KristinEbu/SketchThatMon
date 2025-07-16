@@ -14,11 +14,12 @@ export default function GameRoundResult() {
 
   const { isCanvasOn, isRoundsOn, numRounds, currRound, setCurrRound } =
     useGameContext();
-
   const { currPokemon, fetchNewPokemon, addToPokemonList } =
     usePokemonContext();
 
-  const isFinalRound = isRoundsOn && currRound == numRounds;
+  const [displayPokemon] = useState(currPokemon);
+
+  const isFinalRound = isRoundsOn && currRound === numRounds;
 
   const getSpriteUrl = (apiUrl: string) => {
     const match = apiUrl.match(/\/pokemon\/(\d+)\//);
@@ -27,17 +28,18 @@ export default function GameRoundResult() {
   };
 
   const handleNextRound = () => {
+    addToPokemonList();
     if (!isRoundsOn || currRound < numRounds) {
       const nextRound = currRound + 1;
       setCurrRound(nextRound);
       fetchNewPokemon();
-      addToPokemonList();
       router.push(`/solo/game/${nextRound}`);
     } else {
       router.push("/solo/game/final-results");
     }
   };
-  if (!currPokemon) {
+
+  if (!displayPokemon) {
     return (
       <div className="flex flex-col flex-grow justify-center items-center h-full w-full">
         <p>Loading Pokémon…</p>
@@ -59,23 +61,25 @@ export default function GameRoundResult() {
           router.push("/solo/game/final-results");
         }}
       />
+
       {!isCanvasOn && <div />}
+
       <div className="flex flex-col items-center gap-4">
         <h1 className="font-title text-6xl">
-          {currPokemon.name.toUpperCase()}
+          {displayPokemon.name.toUpperCase()}
         </h1>
 
         <div className="flex items-center">
           <Image
-            src={getSpriteUrl(currPokemon.url)}
-            alt={currPokemon.name}
+            src={getSpriteUrl(displayPokemon.url)}
+            alt={displayPokemon.name}
             width={300}
             height={300}
             className="shrink-0"
           />
-
           {isCanvasOn && <div className="w-90 h-100 bg-white" />}
         </div>
+
         <div className="flex gap-4">
           <Button color="tertiary" size="small" disabled>
             Save to Gallery
@@ -85,9 +89,11 @@ export default function GameRoundResult() {
           </Button>
         </div>
       </div>
+
       <footer className="flex justify-between items-center p-4">
         <div className="font-title text-3xl">
-          Round: {currRound} {isFinalRound && " (FINAL ROUND)"}
+          Round: {currRound}
+          {isFinalRound && " (FINAL ROUND)"}
         </div>
         <Button
           color="primary"

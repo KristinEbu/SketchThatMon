@@ -62,6 +62,8 @@ export function PokemonProvider({ children }: { children: ReactNode }) {
   );
 
   const pokemonReset = useCallback(() => {
+    setCurrPokemon(null);
+    setPokemonList([]);
     localStorage.removeItem("currPokemon");
     localStorage.removeItem("pokemonList");
   }, []);

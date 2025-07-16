@@ -1,4 +1,5 @@
 "use client";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Button from "@/components/ui/button";
 import { useGameContext } from "@/context/gameContext";
@@ -9,7 +10,9 @@ export default function FinalResults() {
 
   const { storageReset } = useGameContext();
 
-  const { pokemonList, pokemonReset } = usePokemonContext();
+  const { fetchNewPokemon, pokemonList, pokemonReset } = usePokemonContext();
+
+  const [displayList] = useState(pokemonList);
 
   return (
     <div className="flex flex-col flex-grow justify-between h-full w-full p-4">
@@ -21,7 +24,7 @@ export default function FinalResults() {
 
         <p className="text-2xl text-center">
           List of Pokémon:{" "}
-          {pokemonList.length ? pokemonList.join(", ") : "No Pokemon Found"}
+          {displayList.length ? displayList.join(", ") : "No Pokemon Found"}
         </p>
 
         <div className="flex flex-col justify-center gap-2">
@@ -46,6 +49,7 @@ export default function FinalResults() {
           onClick={() => (
             storageReset(),
             pokemonReset(),
+            fetchNewPokemon(),
             router.push("/solo/game/1")
           )}
         >
